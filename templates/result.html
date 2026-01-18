@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-center">Kết quả phân tích: {{ stock }}</h2>
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% else %}
+    <h3>Giá đóng cửa trong lịch sử</h3>
+    <img src="{{ original_plot }}" class="img-fluid">
+
+    <h3>So sánh thực tế với dự báo</h3>
+    <img src="{{ predicted_plot }}" class="img-fluid">
+    
+    <h3>Dự báo xu hướng giá</h3>
+    <img src="{{ future_plot }}" class="img-fluid">
+
+    <h3 class="mt-5">Bảng chi tiết giá dự báo</h3>
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Ngày dự báo</th>
+                <th>Giá đóng cửa dự kiến</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for date, price in enumerate(future_predictions, start=1) %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><strong>{{ price | round(2) }}</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+<a href="/" class="btn btn-secondary mt-4">Quay lại</a>
+{% endblock %}
